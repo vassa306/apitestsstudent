@@ -12,4 +12,4 @@ venv/
 *.cer
 *.pem
 
-data.json/
+data.json
