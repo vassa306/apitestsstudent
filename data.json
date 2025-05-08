@@ -1,7 +1,0 @@
-{
-  "policy": "Local",
-  "email": "admin@email.cz",
-  "password": "Banicek1922!",
-  "expected_users": ["vasa", "Jane", "vasik", "pavlik", "pata"],
-   "cert_path": "C:\\Users\\vassa\\source\\ytapi\\studentsapi\\https-certificate.cer"
-}
