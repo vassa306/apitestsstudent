@@ -1,18 +1,26 @@
+""" Helper for api tests"""
+
 import json
 import requests
 from main import create_url
 
 
 class TestDataHelper:
+    """Test Data helper for Api testing """
+
+    BASE_URL = "https://localhost:7055/api"
+    APP_TYPE = "application/json"
+
     def __init__(self, data_file="data.json"):
-        with open(data_file, "r") as file:
+        with open(data_file, "r", encoding="utf8") as file:
             self.data = json.load(file)
 
-        self.base_url = "https://localhost:7055/api"
+        self.base_url = self.BASE_URL
         self.cert_path = self.data["cert_path"]
         self.expected_users = self.data.get("expected_users", [])
         self.token = self._get_token()
         self.authentication_headers = self.get_headers()
+        self.app_type = self.APP_TYPE
 
     def _get_token(self):
         login_payload = {
@@ -27,18 +35,17 @@ class TestDataHelper:
             url=create_url(self.base_url, "User"),
             headers=headers,
             json=login_payload,
-            verify=self.cert_path
+            verify=self.cert_path,
+            timeout=20
         )
-
-        print(response)
-        print("⬅️ Response body:", response.text)
+        print("Response body:", response.text)
         response.raise_for_status()
         return response.json().get("token")
 
     def get_headers(self):
         return {
             "Authorization": f"Bearer {self.token}",
-            "Accept": "application/json"
+            "Accept": self.APP_TYPE
         }
 
     def get_cert(self):
